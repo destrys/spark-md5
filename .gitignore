@@ -1,2 +1,5 @@
 coverall_token.txt
+target/*
+project/project/*
+project/target/*
 *~

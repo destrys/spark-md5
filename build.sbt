@@ -8,10 +8,3 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core"      % "1.3.0" % "provided")
-
-
-// Coverall business
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.3.5")
-addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.1.0")
-import org.scoverage.coveralls.Imports.CoverallsKeys._
-coverallsTokenFile := "coverall_token.txt"
