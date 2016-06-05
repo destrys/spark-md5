@@ -1,7 +1,7 @@
 # spark-md5
 
-[![Build
-Status](https://travis-ci.org/destrys/spark-md5.svg)](https://travis-ci.org/destrys/spark-md5)
+[![Build Status](https://travis-ci.org/destrys/spark-md5.svg)](https://travis-ci.org/destrys/spark-md5)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
 
 Calculate the md5 checksum of an rdd in a consistent way.
 
