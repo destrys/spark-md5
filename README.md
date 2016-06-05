@@ -1,4 +1,8 @@
 # spark-md5
+
+[![Build
+Status](https://travis-ci.org/destrys/spark-md5.svg)](https://travis-ci.org/destrys/spark-md5)
+
 Calculate the md5 checksum of an rdd in a consistent way.
 
 # Install/Include
