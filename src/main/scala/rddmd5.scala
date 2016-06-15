@@ -22,7 +22,7 @@ import java.security.MessageDigest
 class MD5Functions(rdd: RDD[String]) extends Logging with Serializable {
 
 //  val mess = Vvv("MD5")
-  val pre = new DigestUtils.getMd5Digest()
+  val mess = getMd5Digest()
 
 //  val mess = pre.getMd5Digest()
 
@@ -31,7 +31,7 @@ class MD5Functions(rdd: RDD[String]) extends Logging with Serializable {
     tots.foreach(x => println(new java.math.BigInteger(1, x.digest()).toString(16)))
   }
 
-  def md5(prev: Vvv, in2: String): Vvv = {
+  def md5(prev: MessageDigest, in2: String): MessageDigest = {
     val b = in2.getBytes("UTF-8")
     prev.update(b, 0, b.length)
     prev
