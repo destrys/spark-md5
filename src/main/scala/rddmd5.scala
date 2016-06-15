@@ -5,17 +5,36 @@ import org.apache.spark.SparkContext
 import org.apache.spark.Logging
 
 import org.apache.spark.rdd.RDD
+import org.apache.commons.codec.digest.DigestUtils
+import org.apache.commons.codec.digest.DigestUtils._
+import java.security.MessageDigest
+//import java.security.MessageDigestSpi._
 
+//class MessageDigest extends Serializable
+
+//class Vvv(alg: String) extends MessageDigest(alg) {
+//  override def engineDigest(): Array[Byte] = Array[Byte]()
+//  override def engineReset(): Unit = None
+//  override def engineUpdate(x1: Array[Byte],x2: Int,x3: Int): Unit = None
+//  override def engineUpdate(x1: Byte): Unit = None
+//}
 
 class MD5Functions(rdd: RDD[String]) extends Logging with Serializable {
 
+//  val mess = Vvv("MD5")
+  val pre = new DigestUtils.getMd5Digest()
+
+//  val mess = pre.getMd5Digest()
+
   def md5_partitioned(parts: Int = 100): Unit = {
-    val tots = rdd.sortBy(x => x,numPartitions = parts).mapPartitions(x => Iterator(x.foldLeft(0)(md5))).collect()
-    tots.foreach(println)
+    val tots = rdd.sortBy(x => x,numPartitions = parts).mapPartitions(x => Iterator(x.foldLeft(mess)(md5))).collect()
+    tots.foreach(x => println(new java.math.BigInteger(1, x.digest()).toString(16)))
   }
 
-  def md5(prev: Int, in2: String): Int = {
-    prev + in2.length
+  def md5(prev: Vvv, in2: String): Vvv = {
+    val b = in2.getBytes("UTF-8")
+    prev.update(b, 0, b.length)
+    prev
   }
 }
 

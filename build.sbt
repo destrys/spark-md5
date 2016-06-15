@@ -8,6 +8,7 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core"      % "1.3.0" % "provided",
+  "commons-codec" % "commons-codec" % "1.9",
   "org.scalactic" %% "scalactic" % "2.2.6",
   "org.scalatest" %% "scalatest" % "2.2.6" % "test")
 
