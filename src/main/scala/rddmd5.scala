@@ -10,24 +10,12 @@ import org.apache.commons.codec.digest.DigestUtils._
 import java.security.MessageDigest
 //import java.security.MessageDigestSpi._
 
-//class MessageDigest extends Serializable
-
-//class Vvv(alg: String) extends MessageDigest(alg) {
-//  override def engineDigest(): Array[Byte] = Array[Byte]()
-//  override def engineReset(): Unit = None
-//  override def engineUpdate(x1: Array[Byte],x2: Int,x3: Int): Unit = None
-//  override def engineUpdate(x1: Byte): Unit = None
-//}
-
 class MD5Functions(rdd: RDD[String]) extends Logging with Serializable {
 
-//  val mess = Vvv("MD5")
-  val mess = getMd5Digest()
-
-//  val mess = pre.getMd5Digest()
+//  val mess = getMd5Digest()
 
   def md5_partitioned(parts: Int = 100): Unit = {
-    val tots = rdd.sortBy(x => x,numPartitions = parts).mapPartitions(x => Iterator(x.foldLeft(mess)(md5))).collect()
+    val tots = rdd.sortBy(x => x,numPartitions = parts).mapPartitions(x => Iterator(x.foldLeft(getMd5Digest())(md5))).collect()
     tots.foreach(x => println(new java.math.BigInteger(1, x.digest()).toString(16)))
   }
 
