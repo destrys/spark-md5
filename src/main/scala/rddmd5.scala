@@ -7,16 +7,23 @@ import org.apache.spark.Logging
 import org.apache.spark.rdd.RDD
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.codec.digest.DigestUtils._
+import org.apache.spark.HashPartitioner
 import java.security.MessageDigest
 
 class MD5Functions(rdd: RDD[String]) extends Logging with Serializable {
 
   def md5_partitioned(parts: Int = 100): String = {
-    val sots = rdd.sortBy(x => x,numPartitions = parts)
-    val tots = sots.mapPartitions(x => Iterator(x.foldLeft(getMd5Digest())(md5))).map(x => new java.math.BigInteger(1, x.digest()).toString(16)).collect()
-    val output = tots.sorted.foldLeft(getMd5Digest())(md5)
+    val partitioner = new HashPartitioner(parts) 
+    val output = rdd.
+               map(x => (x, 1)).
+               repartitionAndSortWithinPartitions(partitioner).
+               map(_._1).
+               mapPartitions(x => Iterator(x.foldLeft(getMd5Digest())(md5))).
+               map(x => new java.math.BigInteger(1, x.digest()).toString(16)).
+               collect().
+               sorted.
+               foldLeft(getMd5Digest())(md5)
     val checksum = new java.math.BigInteger(1, output.digest()).toString(16)
-    println(checksum)
     return(checksum)
   }
 
@@ -44,7 +51,7 @@ object RddMD5  {
 
     val text = sc.textFile(args(0))                      // Reads a textfile, in local-mode the default is file:///
                                                          // in yarn-mode, the default is hdfs:///
-    text.md5_partitioned(100)
+    text.md5_partitioned(10)
 
   }
 }
